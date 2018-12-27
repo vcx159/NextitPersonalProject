@@ -1,0 +1,48 @@
+#container {
+    margin: 0 auto;
+}
+
+.btn {
+    height: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.func {
+    width: 200px;
+    background-color: cornsilk;
+}
+
+.num {
+    width: 100px;
+}
+.op {
+    width: 100px;
+    background-color: aquamarine;
+}
+.ccc {
+    width: 100px;
+    background-color: bisque;
+}
+
+#cal_str {
+    width: 410px;
+    height: 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: right; /* 텍스트 오른쪽 정렬 계산기처럼 보이게 */
+}
+#cal_result {
+    width: 410px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: right; /* 텍스트 오른쪽 정렬 계산기처럼 보이게 */
+
+}
+#cal_record {
+    display: none;
+}
+#cal_save {
+    height: 300px;
+    overflow: scroll;
+}

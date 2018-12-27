@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>calculator</title>
+    <link rel="stylesheet" type="text/css" href="calculator.css">
+</head>
+<body>
+    <form name="frm">
+    <table id="container" border="2">
+        <tr>
+            <td colspan="4">
+                <input id="cal_str" type="text" name="n_numStr" value="" readonly>
+            </td>
+            <td rowspan="7">
+                <div id="cal_record">
+                    <div id="cal_save"></div>
+                    <input class="btn func" type="button" value="기록 지우기" onclick="f_calClear()">
+                </div>
+            </td> 
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div id="cal_result"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><input class="btn num" type="button" value="1" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="2" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="3" onclick="f_input(this.value)"></td>
+            <td><input class="btn op" type="button" value="+" onclick="f_op(this.value)"></td>
+        </tr>
+        <tr>
+            <td><input class="btn num" type="button" value="4" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="5" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="6" onclick="f_input(this.value)"></td>
+            <td><input class="btn op" type="button" value="-" onclick="f_op(this.value)"></td>
+        </tr>
+        <tr>
+            <td><input class="btn num" type="button" value="7" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="8" onclick="f_input(this.value)"></td>
+            <td><input class="btn num" type="button" value="9" onclick="f_input(this.value)"></td>
+            <td><input class="btn op" type="button" value="*" onclick="f_op(this.value)"></td>
+        </tr>
+        <tr>
+            <td><input class="btn ccc" type="button" value="cc" onclick="f_allClear()"></td>
+            <td><input class="btn num" type="button" value="0" onclick="f_input(this.value)"></td>
+            <td><input class="btn ccc" type="button" value="c" onclick="f_oneDelete()"></td>
+            <td><input class="btn op" type="button" value="/" onclick="f_op(this.value)"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input class="btn func" type="button" value="계산기록 펼치기" onclick="f_openSave(this)"></td>
+            <td colspan="2"><input class="btn func" type="button" value="저장" onclick="f_save()"></td>
+        </tr>
+    </table>
+    </form>
+    <script src="calculator.js"></script>
+</body>
+</html>
