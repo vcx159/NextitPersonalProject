@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var v_local = window.localStorage;
+        window.onload=f_init;
+        function f_init() {
+            f_inputPay();
+            f_inputMember();
+            f_inputSchedule();
+        }
+
+        function f_inputPay() {
+            var v_jsonPay = new XMLHttpRequest();        
+            v_jsonPay.open("GET","paylist.json",true);
+            v_jsonPay.send();        
+            
+            v_jsonPay.onreadystatechange = function() {
+                if(v_jsonPay.readyState == 4 && v_jsonPay.status == 200) { 
+                    v_jsonArr = JSON.parse(v_jsonPay.responseText);
+                    
+                    v_local.setItem("pay", JSON.stringify(v_jsonArr));
+                    
+                }
+            }
+        }
+
+        function f_inputMember() {
+            var v_jsonPay = new XMLHttpRequest();        
+            v_jsonPay.open("GET","member.json",true);
+            v_jsonPay.send();        
+            
+            v_jsonPay.onreadystatechange = function() {
+                if(v_jsonPay.readyState == 4 && v_jsonPay.status == 200) { 
+                    v_jsonArr = JSON.parse(v_jsonPay.responseText);
+                    
+                    v_local.setItem("member", JSON.stringify(v_jsonArr));
+                    
+                }
+            }
+        }
+
+        function f_inputSchedule() {
+            var v_jsonPay = new XMLHttpRequest();        
+            v_jsonPay.open("GET","events.json",true);
+            v_jsonPay.send();        
+            
+            v_jsonPay.onreadystatechange = function() {
+                if(v_jsonPay.readyState == 4 && v_jsonPay.status == 200) { 
+                    v_jsonArr = JSON.parse(v_jsonPay.responseText);
+                    
+                    v_local.setItem("events", JSON.stringify(v_jsonArr));
+                    
+                }
+            }
+        }
+    </script>
+</body>
+</html>

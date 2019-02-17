@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>signup</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/signup.css" rel="stylesheet"> 
+</head>
+<body>
+    <div class="container">
+        <div class="container-fluid color">
+            <form name="frm_member" action="" method="POST">
+                <h2 class="form-signin-heading">회원가입</h2>
+                <table class="table">
+                    <tr>
+                        <td>아이디: </td>
+                        <td>
+                            <input type="text" name="n_id" value="">
+                            <button class="btn btn-default" type="button" onclick="f_idCheck()">아이디 중복체크</button>
+                        </td>
+                    </tr>                      
+                    <tr>
+                        <td>비밀번호: </td>
+                        <td><input type="password" name="n_pw" value=""></td>
+                    </tr>                    
+                    <tr>
+                        <td>이름: </td>
+                        <td><input type="text" name="n_name" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>이메일: </td>
+                        <td><input type="email" name="n_email" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>지출한도: </td>
+                        <td><input type="number" name="n_limit" value=""></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button id="btn_reg" class="btn btn-default" type="button" onclick="f_register()" disabled>완료</button>
+                            <button class="btn btn-default" type="reset">다시하기</button>
+                            <button class="btn btn-default" type="button" onclick="f_cancel()">뒤로</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div> <!-- /container -->
+    <script src="./js/infoUtil.js"></script>
+    <script>
+
+        function f_idCheck() {
+            var inputId = memberDoc.n_id.value;
+
+            for(var i=0; i<v_memberList.length; i++) {
+                if(inputId == v_memberList[i].pid) {
+                    alert("같은 아이디가 있습니다");
+                    return;
+                }
+            }
+
+            memberDoc.btn_reg.disabled = false;
+            alert("사용 가능한 아이디 입니다");
+        }
+
+        function f_cancel() {
+            location.replace("signin.html");
+        }
+    </script>
+</body>
+</html>

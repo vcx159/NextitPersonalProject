@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>updateinfo</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./main.html">메인</a></li>
+                        <li><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li><a href="./calendar.html">달력</a></li>
+                        <li><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+          
+        <form name="frm_member" action="" method="POST">
+            <h2>정보수정</h2>
+            <table class="table">
+                <tr>
+                    <td>아이디: </td>
+                    <td><input type="text" name="n_id" value="" readonly></td>
+                </tr>                
+                <tr>
+                    <td>비밀번호: </td>
+                    <td><input type="password" name="n_pw" value=""></td>
+                </tr>                
+                <tr>
+                    <td>이름: </td>
+                    <td><input type="text" name="n_name" value=""></td>
+                </tr>
+                <tr>
+                    <td>이메일: </td>
+                    <td><input type="email" name="n_email" value=""></td>
+                </tr>
+                <tr>
+                    <td>지출한도: </td>
+                    <td><input type="number" name="n_limit" value=""></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-default" type="button" onclick="f_register()">수정</button>                   
+                        <button class="btn btn-default" type="button" onclick="f_infoDelete()">회원탈퇴</button>                   
+                    </td>
+                </tr>
+            </table>
+        </form>
+          
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+    <script src="./js/infoUtil.js"></script>
+    <script>
+        
+        window.onload=f_init;
+        function f_init() {
+            var memberInfo = JSON.parse(v_session.getItem("id"));
+            frm_member.n_id.value = memberInfo.pid;
+            frm_member.n_name.value = memberInfo.name;
+            frm_member.n_email.value = memberInfo.email;
+            frm_member.n_limit.value = memberInfo.limit;
+        }
+
+        function f_infoDelete() {
+            var v_delInfo = document.getElementsByName("n_id")[0].value;
+            for(var i=0; i<v_memberList.length; i++) {
+                alert(v_memberList[0].pid);
+                if(v_memberList[i].pid == v_delInfo) {
+                    v_memberList.splice(i,1);
+                    break;
+                }
+            }
+
+            v_local.setItem("member",JSON.stringify(v_memberList));
+            location.replace("signin.html");
+        }
+    </script>
+</body>
+</html>

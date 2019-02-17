@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>calendar</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+
+    <!-- full calendar -->
+    <link href='./fullcalendar/fullcalendar.min.css' rel='stylesheet' />
+    <link href='./fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <script src='./fullcalendar/moment.min.js'></script>
+    <script src='./fullcalendar//jquery.min.js'></script>
+    <script src='./fullcalendar/fullcalendar.min.js'></script>
+    <script>
+        $(document).ready(function() { 
+            $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listWeek'
+            },
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: JSON.parse(window.localStorage.getItem("events")) 
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+            font-size: 14px;
+        }
+      
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+      </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./main.html">메인</a></li>
+                        <li><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li class="active"><a href="./calendar.html">달력</a></li>
+                        <li><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+          
+        <div id="calendar"></div>
+          
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+    <script>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>signin</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/signin.css" rel="stylesheet"> 
+</head>
+<body>
+    <div class="container">
+        <form name="f_signin" class="form-signin" action="./main.html" method="POST" onsubmit="return f_memberCheck();">
+            <h2 class="form-signin-heading">가계부</h2>
+            <label for="inputEmail" class="sr-only">아이디</label>
+            <input type="text" id="inputId" class="form-control" placeholder="아이디" required autofocus>
+            <label for="inputPassword" class="sr-only">비밀번호</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="패스워드" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" onclick="location.replace('signup.html')">회원가입</button>
+        </form>
+    </div> <!-- /container -->
+</body>
+<script>
+    var inputIdDoc = document.f_signin.inputId;
+    var inputPwDoc = document.f_signin.inputPassword;
+
+    var v_session = window.sessionStorage;
+    var v_local = window.localStorage;
+
+    var v_jsonArr = JSON.parse(v_local.getItem("member"));
+
+    function f_memberCheck() {
+        for(var i=0; i<v_jsonArr.length; i++) {
+            if(v_jsonArr[i].pid == inputIdDoc.value) {
+                if(v_jsonArr[i].ppw == inputPwDoc.value) {
+                    v_session.setItem("id",JSON.stringify(v_jsonArr[i]));
+                    document.f_signin.submit();  
+                    return true;  
+                }
+                alert("비밀번호가 틀렸습니다");
+                return false;
+            }
+        }
+        
+        alert("등록된 회원이 아닙니다");
+        return false;
+    }
+</script>
+</html>

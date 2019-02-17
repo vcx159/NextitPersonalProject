@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>eventinput</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./main.html">메인</a></li>
+                        <li><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li><a href="./calendar.html">달력</a></li>
+                        <li class="active"><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+          
+        <form name="frm_schedule" action="" method="GET">
+            <h2>스케쥴 입력</h2>
+            <table class="table">                
+                <tr>
+                    <td>내용</td>
+                    <td><input type="text" name="n_title" value=""></td>
+                </tr>
+                <tr>
+                    <td>시작일</td>
+                    <td><input type="date" name="n_startDate" value=""></td>
+                </tr>
+                <tr>
+                    <td>종료일</td>
+                    <td><input type="date" name="n_endDate" value=""></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-default" type="button" onclick="f_scheSave()">저장</button>
+                        <button class="btn btn-default" type="reset">초기화</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+          
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+
+    <script>
+
+        function f_scheSave() {
+            alert("미구현");
+        }
+
+    </script>
+</body>
+</html>

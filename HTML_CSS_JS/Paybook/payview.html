@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>payview</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./main.html">메인</a></li>
+                        <li class="active"><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li><a href="./calendar.html">달력</a></li>
+                        <li><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+        
+        <form name="frm_pay" action="" method="GET">
+            <h2>지출상세 정보</h2>
+                <table class="table">                
+                    <tr>
+                        <td>환전금액: </td>
+                        <td><input type="number" name="n_curPrice" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>기존금액: </td>
+                        <td><input type="number" name="n_oriPrice" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>통화</td>
+                        <td>
+                            <select name="n_setCur">
+                                <option value="KRW">KRW</option>
+                                <option value="USD">USD</option>
+                                <option value="JPY">JPY</option>
+                                <option value="CNY">CNY</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>현금여부</td>
+                        <td>
+                            <input type="radio" name="n_isCash" value="YES">Y
+                            <input type="radio" name="n_isCash" value="NO">N
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>제목</td>
+                        <td><input type="text" name="n_title" value=""></td>
+                    </tr>
+                    <tr>
+                        <td>상세정보: </td>
+                        <td>
+                            <textarea name="n_detail" cols="80" rows="6"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>날짜: </td>
+                        <td><input type="date" name="n_date"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-default" type="button" onclick="f_save()">수정</button>
+                            <button class="btn btn-default" type="button" onclick="f_payDelete()">삭제</button>
+                            <button class="btn btn-default" type="button" onclick="f_cancel()">취소</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+          
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+    <script src="./js/payUtil.js"></script>
+    <script>
+
+        window.onload=f_inputPayInfo;
+        function f_inputPayInfo() {
+            for(var i = 0; i<v_payList.length; i++) {
+                if(v_payList[i].pk == keyValue) {
+                    var payInfo = JSON.parse(v_local.getItem("pay"))[i];
+                    payDoc.n_curPrice.value = payInfo.exchange;
+                    payDoc.n_oriPrice.value = payInfo.original;
+                    payDoc.n_setCur.value = payInfo.currency;
+                    payDoc.n_isCash.value = payInfo.isCash;
+                    payDoc.n_title.value = payInfo.title;
+                    payDoc.n_detail.innerHTML = payInfo.detail;
+                    payDoc.n_date.value = payInfo.date;
+                    break;
+                }
+            }
+
+        }
+
+        function f_payDelete() {
+            for(var i = 0; i<v_payList.length; i++) {
+                if(v_payList[i].pk == keyValue) {
+                    v_payList.splice(i,1);
+                    break;
+                }
+            }
+            
+            v_local.setItem("pay",JSON.stringify(v_payList));
+            location.replace("paylist.html");
+        }
+
+        function f_cancel() {
+            location.replace("paylist.html");
+        }
+    </script>
+</body>
+</html>

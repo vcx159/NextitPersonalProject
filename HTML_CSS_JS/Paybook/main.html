@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>main</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script>
+        $.ajax({            
+            url: 'https://free.currencyconverterapi.com/api/v6/convert?q=USD_KRW,JPY_KRW&compact=ultra&apiKey=bceb8cf55f77ffe24dc6',
+            dataType: 'jsonp',
+            success: function(json) {
+                $("#curResult").html("미국 1달러 <br>"+json.USD_KRW)
+                $("select[name=currencies]").change(function() {
+                    var currency = $("select[name=currencies]").val();
+                    if(currency == "USD") {
+                        $("#curResult").html("미국 1달러 <br>"+json.USD_KRW)
+                    }else if(currency == "JPY") {
+                        $("#curResult").html("일본 1엔 <br>"+json.JPY_KRW)
+                    }
+                })
+ 
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="./main.html">메인</a></li>
+                        <li><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li><a href="./calendar.html">달력</a></li>
+                        <li><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+          
+        <!-- Jumbotron -->
+        <div class="jumbotron">
+            <h1>나의 잔여한도</h1>
+            <p id="restPay" class="lead"></p>
+        </div>
+          
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-lg-4">
+                <h2>지난달 지출액</h2>
+                <p id="lastPay" class="lead"></p>
+            </div>
+            <div class="col-lg-4">
+                <h2>내일 일정</h2>
+                <p class="lead">없음</p>
+            </div>
+            <div class="col-lg-4">
+                <h2>환율 정보</h2>
+                <p class="lead">
+                    <select name='currencies'>
+                        <option value='USD' title='United States Dollar'>USD</option>
+                        <option value='JPY' title='Japanese Yen'>JPY</option>
+                    </select>
+                    <div id="curResult"></div>
+                </p>
+            </div>
+        </div>
+          
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+
+    <script>         
+        var v_local = window.localStorage;
+        var v_session = window.sessionStorage;           
+                    
+        var payInfo = JSON.parse(v_local.getItem("pay"));
+        var memberInfo = JSON.parse(v_session.getItem("id"));
+
+        var restPayDoc = document.getElementById("restPay");
+        var lastPayDoc = document.getElementById("lastPay");
+
+        var v_myPayHistory = [];
+
+        window.onload=f_init;
+        function f_init() {
+
+            for(var i=0; i<payInfo.length; i++) {
+                if(memberInfo.pid == payInfo[i].pid) {
+                    v_myPayHistory.push(payInfo[i]);
+                }
+            }
+
+            f_checkLimit();
+            f_checkPrePay();
+        }
+
+        function f_checkLimit() {
+            var d = new Date();
+            var nowMonth = d.getMonth()+1;
+            var v_monthSum=0;
+
+            for(var i=0; i<v_myPayHistory.length; i++) {
+                var payMonth = parseInt(v_myPayHistory[i].date.split("-")[1]);
+
+                if(nowMonth == payMonth) {
+                    v_monthSum += parseInt(v_myPayHistory[i].exchange);
+                }
+            }
+
+            restPayDoc.innerHTML = f_addComma(memberInfo.limit - v_monthSum);            
+        }
+
+        function f_checkPrePay() {
+            var d = new Date();
+            var preMonth = d.getMonth();
+            var v_monthSum=0;
+
+            if(!preMonth) {preMonth = 12;}
+
+            for(var i=0; i<v_myPayHistory.length; i++) {
+                var payMonth = parseInt(v_myPayHistory[i].date.split("-")[1]);
+
+                if(preMonth == payMonth) {
+                    v_monthSum += parseInt(v_myPayHistory[i].exchange);
+                }
+            }
+
+            lastPayDoc.innerHTML = f_addComma(v_monthSum);    
+        }
+
+        function f_addComma(number) {
+            var regExp = /(^[+-]?\d+)(\d{3})/;
+            var string = String(number);
+
+            while(regExp.test(string)) {
+                string = string.replace(regExp,'$1,$2');
+            }
+            return string;
+        }
+    </script>
+</body>
+</html>

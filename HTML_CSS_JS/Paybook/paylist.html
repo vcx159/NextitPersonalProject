@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>paylist</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/justified-nav.css" rel="stylesheet">
+    <link href="./css/navbar.css" rel="stylesheet">
+    <style>
+        #id_search {
+            display: none;
+        }
+
+        .c_curP {
+            color: crimson;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">가계부</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./main.html">메인</a></li>
+                        <li class="active"><a href="./paylist.html">지출목록</a></li>
+                        <li><a href="./payinput.html">지출입력</a></li>
+                        <li><a href="./calendar.html">달력</a></li>
+                        <li><a href="./eventinput.html">일정추가</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./updateinfo.html">정보수정</a></li>
+                        <li><a href="./signin.html">로그아웃</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+        
+        <form name="frm_search">        
+            <table>
+                <tr>
+                    <td><h2>지출목록</h2></td>
+                    <td><a href="#" onclick="f_openSearch()">+검색창 열기</a></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <div id="id_search">
+                        금액별: 최소<input type="number" name="n_minMoney" value=""> ~ 최대<input type="number" name="n_maxMoney" value="">
+                        <!-- 날짜별: <input type="date" name="n_minDate" value="">~<input type="date" name="n_maxDate" value=""><br> -->
+                        통화별:
+                        <select name="n_setCur">
+                            <option value="ALL" selected>ALL</option>
+                            <option value="KRW">KRW</option>
+                            <option value="USD">USD</option>
+                            <option value="JPY">JPY</option>
+                            <option value="CNY">CNY</option>
+                        </select>                        
+                        현금여부: 
+                        <input type="radio" name="n_isCash" value="ALL" checked>전체
+                        <input type="radio" name="n_isCash" value="YES">Y
+                        <input type="radio" name="n_isCash" value="NO">N<br>
+                        <button class="btn btn-default" type="submit">검색</button>
+                    </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
+        <form>
+            <div id="id_list">
+            </div>
+        </form>
+
+        <!-- Site footer -->
+        <footer class="footer">
+            <p>광고 모집</p>
+        </footer>
+          
+    </div> <!-- /container -->
+    <script src="./js/paylist.js"></script>
+</body>
+</html>
