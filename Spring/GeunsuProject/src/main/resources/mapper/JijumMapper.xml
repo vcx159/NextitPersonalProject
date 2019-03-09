@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.wjdrmstn.jijum.service.impl.JijumMapper">
+
+	<select id="selectJijumInfo" parameterType="String" resultType="kr.or.wjdrmstn.jijum.service.JijumVo">
+	
+		SELECT
+		    jijum_id,
+		    jijum_name,
+		    addr_zip,
+		    addr_detail,
+		    phone_number,
+		    fax_number,
+		    ref_seq_no,
+		    open_date,
+		    close_date,
+		    is_del,
+		    create_date,
+		    update_date
+		FROM
+		    wjd_jijums
+		WHERE
+			jijum_id = #{jijumId}
+	
+	</select>
+
+
+</mapper>

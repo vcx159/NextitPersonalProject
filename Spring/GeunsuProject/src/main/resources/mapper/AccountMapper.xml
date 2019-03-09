@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.wjdrmstn.account.service.impl.AccountMapper">
+
+	<select id="selectAccountInfo" parameterType="kr.or.wjdrmstn.account.service.AccountVo"
+				resultType="kr.or.wjdrmstn.account.service.AccountVo">
+		
+		SELECT
+		    acc_id,
+		    acc_pw,
+		    employee_id,
+		    author_id,
+		    is_del,
+		    create_date,
+		    update_date
+		FROM
+	    	wjd_accounts
+		WHERE acc_id = #{accId}
+		AND acc_pw = #{accPw}
+	
+	</select>
+
+
+</mapper>

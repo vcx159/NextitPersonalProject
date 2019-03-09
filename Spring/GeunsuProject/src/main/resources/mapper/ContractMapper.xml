@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.wjdrmstn.contract.service.impl.ContractMapper">
+
+	<select id="selectContractInfo" parameterType="int" resultType="kr.or.wjdrmstn.contract.service.ContractVo">
+	
+		SELECT
+		    seq_no,
+		    employee_id,
+		    to_char(hire_date,'yyyy-mm-dd') as hire_date,
+		    to_char(retire_date,'yyyy-mm-dd') as retire_date,
+		    is_regular,
+		    is_del,
+		    create_date,
+		    update_date
+		FROM
+		    wjd_contracts
+		WHERE employee_id = #{employeeId}
+	
+	</select>
+
+	<insert id="insertContractInfo" parameterType="kr.or.wjdrmstn.contract.service.ContractVo">
+	
+		INSERT INTO wjd_contracts (
+		    seq_no,
+		    employee_id,
+		    hire_date,
+		    retire_date,
+		    is_regular,
+		    is_del,
+		    create_date,
+		    update_date
+		) VALUES (
+		    SEQ_WJD_CONTRACTS.NEXTVAL,
+		    #{employeeId},
+		    #{hireDate},
+		    #{retireDate},
+		    'N',
+		    'N',
+		    sysdate,
+		    sysdate
+		)
+	
+	</insert>
+	
+	<update id="updateContractInfo" parameterType="kr.or.wjdrmstn.contract.service.ContractVo">
+		
+		UPDATE wjd_contracts
+		SET
+		   	hire_date = #{hireDate},
+    		retire_date = #{retireDate},
+    		is_regular = #{isRegular},
+    		update_date = sysdate
+		WHERE
+		    employee_id = #{employeeId}
+		
+	</update>
+	
+	<update id="deleteContractInfo" parameterType="int">
+		
+		UPDATE wjd_contracts
+		SET
+		   	is_del = 'Y',
+    		update_date = sysdate
+		WHERE
+		    employee_id = #{employeeId}
+	
+	</update>
+
+</mapper>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.wjdrmstn.employee.service.impl.EmployeeMapper">
+
+	<sql id="selectSeachCode">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="searchType == 1001 and searchText != ''">
+				AND employee_name like '%' || #{searchText} || '%'
+			</if>
+			AND is_del = 'N' AND job_id != 'MANAGER' AND jijum_id = #{jijumId}
+		</trim>	
+	</sql>
+
+	
+	<select id="selectEmployeeList"
+			parameterType="kr.or.wjdrmstn.employee.service.EmployeeSearchVo"
+			resultType="kr.or.wjdrmstn.employee.service.EmployeeVo">
+			
+		SELECT * FROM (
+			SELECT ROWNUM as num, frm.* from (
+				SELECT
+				    employee_id,
+				    employee_name,
+				    gender,
+				    jumin_number,
+				    phone_number,
+				    email,
+				    addr_zip,
+				    addr_detail1,
+				    addr_detail2,
+				    salary,
+				    jijum_id,
+				    job_id,
+				    ref_seq_no,
+				    is_del,
+				    create_date,
+				    update_date
+				FROM
+				    wjd_employees
+				<include refid="selectSeachCode"></include>
+				ORDER BY 
+					employee_id
+			) frm
+		) where num between #{startRow} and #{endRow}
+		
+	</select>
+
+	<select id="selectEmployeeListCnt" 
+			parameterType="kr.or.wjdrmstn.employee.service.EmployeeSearchVo"
+			resultType="int">
+	
+		SELECT count(employee_id) as totalCnt
+        FROM wjd_employees
+       <include refid="selectSeachCode"></include>
+	
+	</select>
+	
+	<select id="selectEmployeeInfoUpdate" parameterType="int"
+			resultType="kr.or.wjdrmstn.employee.service.EmployeeVo">
+	
+		SELECT
+				    employee_id,
+				    employee_name,
+				    gender,
+				    jumin_number,
+				    phone_number,
+				    email,
+				    addr_zip,
+				    addr_detail1,
+				    addr_detail2,
+				    salary,
+				    jijum_id,
+				    job_id,
+				    ref_seq_no,
+				    is_del,
+				    create_date,
+				    update_date
+		FROM
+		    wjd_employees
+		WHERE
+			employee_id = #{employeeId}
+	
+	</select>
+	
+	<select id="selectEmployeeInfoDetail" parameterType="int"
+			resultType="kr.or.wjdrmstn.employee.service.EmployeeVo">
+	
+        SELECT
+				    a.employee_id,
+				    a.employee_name,
+				    a.gender,
+				    a.jumin_number,
+				    a.phone_number,
+				    a.email,
+				    a.addr_zip,
+				    a.addr_detail1,
+				    a.addr_detail2,
+				    a.salary,
+				    a.jijum_id,
+				    (b.job_name || ', ' || b.description) as job_id,
+				    a.ref_seq_no,
+				    a.is_del,
+				    a.create_date,
+				    a.update_date
+		FROM
+		    wjd_employees a, wjd_jobs b
+		WHERE
+			a.job_id = b.job_id AND
+			employee_id = #{employeeId}
+	
+	</select>
+	
+	<insert id="insertEmployeeInfo" parameterType="kr.or.wjdrmstn.employee.service.EmployeeVo" 
+			useGeneratedKeys="true" keyColumn="employee_id" keyProperty="employeeId">
+		
+		INSERT INTO wjd_employees (
+		    employee_id,
+		    employee_name,
+		    gender,
+		    jumin_number,
+		    phone_number,
+		    email,
+		    addr_zip,
+		    addr_detail1,
+		    addr_detail2,
+		    salary,
+		    jijum_id,
+		    job_id,
+		    ref_seq_no,
+		    is_del,
+		    create_date,
+		    update_date
+		) VALUES (
+		    (to_number(to_char(sysdate,'YYMM') || '000')+SEQ_WJD_EMPLOYEES.NEXTVAL),
+		    #{employeeName},
+		    #{gender},
+		    #{juminNumber},
+		    #{phoneNumber},
+		    #{email},
+		    #{addrZip},
+		    #{addrDetail1},
+		    #{addrDetail2},
+		    #{salary},
+		    #{jijumId},
+		    #{jobId},
+		    #{refSeqNo},
+		    'N',
+		    sysdate,
+		    sysdate
+		)
+	
+	</insert>
+
+	<update id="updateEmployeeInfo" parameterType="kr.or.wjdrmstn.employee.service.EmployeeVo">
+		
+		UPDATE wjd_employees
+		SET
+		    salary = #{salary},
+		    job_id = #{jobId},
+		    update_date = sysdate
+		WHERE
+		    employee_id = #{employeeId}
+	
+	</update>
+	
+	<update id="deleteEmlpoyeeInfo" parameterType="int">
+	
+		UPDATE wjd_employees
+		SET
+		    is_del = 'Y',
+		    update_date = sysdate
+		WHERE
+		    employee_id = #{employeeId}
+	
+	</update>
+</mapper>
