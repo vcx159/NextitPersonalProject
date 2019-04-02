@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.types.service.impl.TypesMapper">
+
+	<select id="selectTypesList" resultType="kr.or.allfix.types.service.TypesVo">
+	
+		SELECT
+		    type_id,
+		    type_name,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+		    af_types
+	
+	</select>
+
+
+</mapper>

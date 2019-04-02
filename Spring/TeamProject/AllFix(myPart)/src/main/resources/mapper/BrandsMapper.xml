@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.brands.service.impl.BrandsMapper">
+
+	<select id="selectBrandsList" resultType="kr.or.allfix.brands.service.BrandsVo">
+	
+		SELECT
+		    brand_id,
+		    brand_name,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+		    af_brands
+	
+	</select>
+
+</mapper>

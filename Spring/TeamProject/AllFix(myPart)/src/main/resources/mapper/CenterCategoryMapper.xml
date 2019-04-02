@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.centercategory.service.impl.CenterCategoryMapper">
+
+	<select id="selectCenterCategoryList" parameterType="HashMap" resultType="kr.or.allfix.centercategory.service.CenterCategoryVo">
+	
+		SELECT b.cen_no, b.cen_name 
+		FROM af_center_category a, af_centers b 
+		WHERE a.cate_no in 
+			(SELECT cate_no 
+			FROM af_categorys 
+			WHERE brand_id = #{brandId}
+			AND type_id = #{typeId})
+		AND a.cen_no = b.cen_no
+	
+	</select>
+
+</mapper>
