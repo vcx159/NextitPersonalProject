@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script src="https://www.pigno.se/barn/PIGNOSE-Calendar/dist/js/pignose.calendar.js"></script>
+    <link rel="stylesheet" href="https://www.pigno.se/barn/PIGNOSE-Calendar/dist/css/pignose.calendar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <style>
+        .tabs {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+
+        .tabs li {
+            float: left;
+            border: 1px solid #999;
+            border-bottom: none;
+            background: #e0e0e0;
+        }
+
+        .tab_content {
+            overflow: scroll;
+            width: 200px;
+            height: 400px;
+        }
+    </style>
+    <script>
+    $(function() {
+        var arrayCollection = [
+            {"id": "민생지표", "parent": "#", "text": "민생지표"},
+            {"id": "빅데이터", "parent": "#", "text": "빅데이터"},
+            {"id": "건강보험 체납", "parent": "민생지표", "text": "건강보험 체납"},
+            {"id": "LH임대료 체납", "parent": "민생지표", "text": "LH임대료 체납"},
+            {"id": "테스트1", "parent": "빅데이터", "text": "테스트1"},
+            {"id": "테스트2", "parent": "빅데이터", "text": "테스트2"}
+        ];
+        var arrayCollection2 = [
+            {"id": "민생지표", "parent": "#", "text": "민생지표"},
+            {"id": "건강보험 체납", "parent": "민생지표", "text": "건강보험 체납"},
+            {"id": "LH임대료 체납", "parent": "민생지표", "text": "LH임대료 체납"}
+        ];
+        $('#tab1').jstree({
+            'core': {
+                'data': arrayCollection
+            }
+        });
+
+        $('#tab2').jstree({
+            'core': {
+                'data': arrayCollection2
+            }
+        });
+
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+                
+        $("ul.tabs li").click(function () {
+            $("ul.tabs li").removeClass("active").css("color", "#333");
+            $(this).addClass("active").css("color", "darkred");
+            $(".tab_content").hide()
+            var activeTab = $(this).attr("rel");
+            $("#" + activeTab).show()
+        });
+
+        $('.calendar').pignoseCalendar({
+            lang: 'ko'
+        });
+    });
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <ul class="tabs">
+        <li class="active" rel="tab1">전체</li>
+        <li rel="tab2">대외서비스</li>
+    </ul>
+    <div class="tab_container">
+        <div id="tab1" class="tab_content" style="border: 1px solid">
+
+        </div>
+
+        <div id="tab2" class="tab_content" style="border: 1px solid">
+        
+        </div>
+    </div>
+    <div class="calendar"></div>
+
+</body>
+</html>
