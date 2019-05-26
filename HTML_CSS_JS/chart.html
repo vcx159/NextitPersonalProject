@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+    
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="dimplechart"></div>
+    <div id="d3chart"></div>
+    <script>
+
+        var svg = dimple.newSvg("#dimplechart", 600, 400);
+        var data = [
+            {"name":"1.개인자금 대출잔액", "baseYear":"201809", "yValue":4.5 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201810", "yValue":3.3 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201811", "yValue":0.8 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201812", "yValue":1.6 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201901", "yValue":-0.8 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201902", "yValue":-3.7 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201903", "yValue":2.8 },
+            {"name":"1.개인자금 대출잔액", "baseYear":"201904", "yValue":-2.1 },
+        ];
+        var myChart = new dimple.chart(svg, data);
+        var yAxis = myChart.addMeasureAxis("y", "yValue");
+        yAxis.title="전년동월비";
+        yAxis.tickFormat=",.1f";
+        var xAxis = myChart.addCategoryAxis("x","baseYear");
+        xAxis.title = "";
+        xAxis.addOrderRule("baseYear");
+        var s1 = myChart.addSeries("name", dimple.plot.line, [xAxis,yAxis]);
+        s1.lineWeight=3;
+        s1.lineMarkers=true;
+        myChart.draw();
+
+    </script>
+</body>
+</html>

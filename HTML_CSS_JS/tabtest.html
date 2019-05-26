@@ -30,9 +30,15 @@
             width: 200px;
             height: 400px;
         }
+
+        .calendar {
+            display: none;
+        }
     </style>
     <script>
     $(function() {
+        var isCalShow=false;
+
         var arrayCollection = [
             {"id": "민생지표", "parent": "#", "text": "민생지표"},
             {"id": "빅데이터", "parent": "#", "text": "빅데이터"},
@@ -70,7 +76,22 @@
         });
 
         $('.calendar').pignoseCalendar({
-            lang: 'ko'
+            lang: 'ko',
+            // format: "YYYYMMDD",  안먹힘
+            select: function(date, context) {
+                console.log(date[0]);
+                $('#date').val(date[0].format('YYYYMMDD'));
+            }
+        });
+
+        $('#cal').click(function() {
+            if(!isCalShow) {
+                $('.calendar').css("display", "block");
+                isCalShow=true;
+            }else {
+                $('.calendar').css("display", "none");
+                isCalShow=false;
+            }
         });
     });
     </script>
@@ -90,7 +111,9 @@
         
         </div>
     </div>
-    <div class="calendar"></div>
 
+    <input id="date" type="text"><button id="cal" type="button">달력</button>
+
+    <div class="calendar"></div>
 </body>
 </html>
