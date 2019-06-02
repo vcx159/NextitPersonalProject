@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <style>
+
+        .tabs 
+        {
+            margin: 0;
+            padding: 0;
+            float: left;
+            list-style: none;
+            height: 32px; /*--Set height of tabs--*/
+            border-bottom: 1px solid #999;
+            border-left: 1px solid #999;
+            width: 100%;
+        }
+        .tabs li {
+            float: left;
+            margin: 0;
+            padding: 0;
+            height: 31px; /*--Subtract 1px from the height of the unordered list--*/
+            line-height: 31px; /*--Vertically aligns the text within the tab--*/
+            border: 1px solid #999;
+            border-left: none;
+            margin-bottom: -1px; /*--Pull the list item down 1px--*/
+            overflow: hidden;
+            position: relative;
+            background: #e0e0e0;
+        }
+        .tabs li a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            font-size: 1.2em;
+            padding: 0 20px;
+            /*--Gives the bevel look with a 1px white border inside the list item--*/
+            border: 1px solid #fff; 
+            outline: none;
+        }
+        .tabs li a:hover {
+            background: #ccc;
+        }
+        html .tabs li.active, html .tabs li.active a:hover  {
+             /*--Makes sure that the active tab does not listen to the hover properties--*/
+            background: #fff;
+            /*--Makes the active tab look like it's connected with its content--*/
+            border-bottom: 1px solid #fff; 
+        }
+
+        /*Tab Conent CSS*/
+        .tab_container {
+            border: 1px solid #999;
+            border-top: none;
+            overflow: hidden;
+            clear: both;
+            float: left; 
+            width: 100%;
+            background: #fff;
+        }
+        .tab_content {
+            padding: 20px;
+            font-size: 1.2em;
+        }
+
+        .calendar {
+            display: none;
+        }
+    </style>
+    <script>
+
+    var arrayCollection = [
+        {"id": "민생지표", "parent": "#", "text": "민생지표"},
+        {"id": "빅데이터", "parent": "#", "text": "빅데이터"},
+        {"id": "건강보험 체납", "parent": "민생지표", "text": "건강보험 체납"},
+        {"id": "LH임대료 체납", "parent": "민생지표", "text": "LH임대료 체납"},
+        {"id": "테스트1", "parent": "빅데이터", "text": "테스트1"},
+        {"id": "테스트2", "parent": "빅데이터", "text": "테스트2"}
+    ];
+    var arrayCollection2 = [
+        {"id": "민생지표", "parent": "#", "text": "민생지표"},
+        {"id": "건강보험 체납", "parent": "민생지표", "text": "건강보험 체납"},
+        {"id": "LH임대료 체납", "parent": "민생지표", "text": "LH임대료 체납"}
+    ];
+
+
+
+    $(function() {
+
+        var init = function() {
+            $('#tab1').addClass("active");
+
+            $('#tab').jstree("destroy").empty();
+            $('#tab').jstree({
+                'core': {
+                    'data': arrayCollection
+                }
+            });
+        }
+
+        init();
+
+        $('#tab1').click(function(event) {
+           
+            $('#tab2').removeClass("active");
+            $('#tab1').addClass("active");
+
+            $('#tab').jstree("destroy").empty();
+            $('#tab').jstree({
+                'core': {
+                    'data': arrayCollection
+                }
+            });
+        });
+
+        $('#tab2').click(function(event) {
+            
+            $('#tab1').removeClass("active");
+            $('#tab2').addClass("active");
+            
+            $('#tab').jstree("destroy").empty();
+            $('#tab').jstree({
+                'core': {
+                    'data': arrayCollection2
+                }
+            });
+        });
+
+    });
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <ul class="tabs">
+        <li id="tab1" rel="tab1">전체</li>
+        <li id="tab2" rel="tab2">대외서비스</li>
+    </ul>
+    <div class="tab_container">
+        <div id="tab" class="tab_content" style="border: 1px solid">
+
+        </div>
+    </div>
+
+</body>
+</html>

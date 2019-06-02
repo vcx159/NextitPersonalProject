@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+    <script>
+        $(function() {
+            $('#tableTest').dataTable({
+                scrollY : "300px",
+                data: [
+                    {
+                        "id": 1,
+                        "num":20,
+                        "name":"정근수",
+                        "age":55,
+                        "sex":"M"
+                    }
+                ],
+                columns: [
+                    {data: "id"},
+                    {data: "num"},
+                    {data: "name"},
+                    {data: "age"},
+                    {data: "sex"}
+                ]
+            });
+        })
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <table id="tableTest" class="display">
+        <thead>
+            <tr>
+                <th>컬럼1</th>
+                <th>컬럼2</th>
+                <th>컬럼3</th>
+                <th>컬럼4</th>
+                <th>컬럼5</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+</html>
