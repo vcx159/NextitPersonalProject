@@ -15,7 +15,7 @@
     <div id="d3chart"></div>
     <script>
 
-        var svg = dimple.newSvg("#dimplechart", 600, 400);
+        var svg = dimple.newSvg("#dimplechart", 600, 300);
         var data = [
             {"name":"1.개인자금 대출잔액", "baseYear":"201809", "yValue":4.5 },
             {"name":"1.개인자금 대출잔액", "baseYear":"201810", "yValue":3.3 },
@@ -27,6 +27,7 @@
             {"name":"1.개인자금 대출잔액", "baseYear":"201904", "yValue":-2.1 },
         ];
         var myChart = new dimple.chart(svg, data);
+        myChart.setBounds(55,10,450,180);
         var yAxis = myChart.addMeasureAxis("y", "yValue");
         yAxis.title="전년동월비";
         yAxis.tickFormat=",.1f";
@@ -34,6 +35,7 @@
         xAxis.title = "";
         xAxis.addOrderRule("baseYear");
         var s1 = myChart.addSeries("name", dimple.plot.line, [xAxis,yAxis]);
+        myChart.addLegend(30,-20,400,20,'left');
         s1.lineWeight=3;
         s1.lineMarkers=true;
         myChart.draw();
@@ -156,18 +158,22 @@
 
             recurse(null,root);
 
-            return {"children": classes};
+            return {children: classes};
         }
 
         function dragStarted(d) {
-            if(!d3.event.active)
+            
+            if(!d3.event.active) {
+                console.log(d3.event.active);
                 simulation.alphaTarget(0.3).restart();
+            }
 
             d.fx=d.x;
             d.fy=d.y;
         }
 
         function dragged(d) {
+
             d.fx=d3.event.x;
             d.fy=d3.event.y;
         }
