@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function changeToYYMMDD(date) {
+            var year = date.split('-')[0];
+            var month = date.split('-')[1];
+            var day = date.split('-')[2];
+
+            return year+month+day+'';
+        }
+
+        function changeToYY_MM_DD(date) {
+            var year = date.substring(0,4);
+            var month = date.substring(4,6);
+            var day = date.substring(6,8);
+
+            return year+'-'+month+'-'+day;
+        }
+
+        console.log('yyyymmdd' + changeToYYMMDD('2019-01-01'));
+
+        console.log('yyyy-mm-dd' + changeToYY_MM_DD('20190101'));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
