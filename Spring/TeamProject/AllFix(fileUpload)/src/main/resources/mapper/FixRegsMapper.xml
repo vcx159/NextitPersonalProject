@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.fixregs.service.impl.FixRegsMapper">
+
+	<sql id="selectSeachCode">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			
+			<if test="searchService != 'ALL'">
+				AND service_type = #{searchService}
+			</if>
+			<if test="searchStatus != 'ALL'">
+				AND status = #{searchStatus}
+			</if>			
+			
+			<if test="searchType == 'product' and searchText != ''">
+				AND product_name like '%' || #{searchText} || '%'
+			</if>
+			<if test="searchType == 'regUser' and searchText != ''">
+				AND reg_user like '%' || #{searchText} || '%'
+			</if>
+			
+			<if test="loginUser != 'admin'">
+				AND reg_user = #{loginUser}
+			</if>
+			AND is_del = 'N'
+		</trim>	
+	</sql>
+
+	<select id="selectFixRegsListProc" 
+		parameterType="kr.or.allfix.fixregs.service.FixRegsSearchVo" 
+		resultType="kr.or.allfix.fixregs.service.FixRegsVo">
+	
+		SELECT * FROM (
+			SELECT ROWNUM as num, frm.* from (
+				SELECT
+			    	seq_no,
+				    service_type,
+				    cen_no,
+				    cate_no,
+				    product_name,
+				    detail,
+				    price,
+				    status,
+				    ref_seq_no,
+				    is_del,
+				    reg_user,
+				    reg_dt,
+				    upd_user,
+				    upd_dt
+				FROM
+				    af_fixregs
+				<include refid="selectSeachCode"></include>
+				ORDER BY 
+					reg_dt DESC
+			) frm
+		) where num between #{startRow} and #{endRow}
+	
+	</select>
+	
+	<select id="selectFixRegsListCnt" 
+		parameterType="kr.or.allfix.fixregs.service.FixRegsSearchVo"
+		resultType="int">
+	
+		SELECT count(seq_no) as totalCnt
+        FROM af_fixregs
+		<include refid="selectSeachCode"></include>
+	
+	</select>
+	
+	<select id="selectFixRegInfoProc" parameterType="String" resultType="kr.or.allfix.fixregs.service.FixRegsVo">
+	
+		SELECT
+		    a.seq_no,
+		    a.service_type,
+		    b.cen_no,
+            b.cen_name,
+		    c.cate_no,
+            d.type_name,
+            e.brand_name,
+		    a.product_name,
+		    a.detail,
+		    a.price,
+		    a.status,
+		    a.ref_seq_no,
+		    a.is_del
+		FROM
+		    af_fixregs a, af_centers b, af_categorys c, af_types d, af_brands e
+		WHERE
+			a.seq_no = #{seqNo}
+        AND a.cen_no = b.cen_no
+        AND a.cate_no = c.cate_no
+        AND c.type_id = d.type_id
+        AND c.brand_id = e.brand_id
+		AND a.is_del = 'N'
+	
+	</select>
+
+	<insert id="insertFixRegInfoProc" parameterType="kr.or.allfix.fixregs.service.FixRegsVo">
+	
+		INSERT INTO af_fixregs (
+		    seq_no,
+		    service_type,
+		    cen_no,
+		    cate_no,
+		    product_name,
+		    detail,
+		    price,
+		    status,
+		    ref_seq_no,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		) VALUES (
+		    SEQ_AF_FIXREGS.NEXTVAL,
+		    #{serviceType},
+		    #{cenNo},
+		    #{cateNo},
+		    #{productName},
+		    #{detail},
+		    #{price},
+		    #{status},	
+		    #{refSeqNo},
+		    'N',
+		    #{regUser},
+		    sysdate,
+		    #{updUser},
+		    sysdate
+		)
+	
+	</insert>
+	
+	<update id="updateFixRegInfoProc" parameterType="kr.or.allfix.fixregs.service.FixRegsVo">
+		
+		UPDATE af_fixregs
+		SET
+			product_name = #{productName},
+    		detail = #{detail},
+    		price = #{price},
+    		status = #{status},
+    		upd_user = #{updUser},
+    		upd_dt = sysdate
+		WHERE
+			seq_no = #{seqNo}
+
+	</update>
+	
+	<delete id="deleteFixRegInfoProc" parameterType="HashMap">
+	
+			DELETE FROM af_fixregs
+		WHERE
+    seq_no = ''
+			
+	
+	</delete>
+
+</mapper>

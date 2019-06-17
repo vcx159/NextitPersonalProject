@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 파일 업로드 공동 (임시/원본 파일 위치 변경시, 선택사항) -->
+	<!-- 파일 업로드 동안에만 tmp 파일이 생성되고 완료되면 자동으로 삭제 -->
+	<bean id="uploadTempDir"
+			class="org.springframework.core.io.FileSystemResource">
+		<constructor-arg value="/uploadTempDir"/>
+	</bean>
+	
+	<!-- 기존 스프링 프레임워크 파일 업로드 기능(필수사항) -->
+	<!-- @RequestParam("attachFiles") List<MultipartFile> attachFiles -->
+	<bean id="spring.CommonsMultipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1024000000"/>
+		<property name="defaultEncoding" value="UTF-8"/>		
+	</bean>
+	
+	<!-- 향상된 파일 업로드 기능을 활성화(서블릿 3.x 버전 이상에서 사용가능 (선택사항) -->
+	<!-- @RequestParam("attachFiles") List<part> attachPart -->
+	<bean id="standard.ServletMultipartResolver"
+			class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</bean>
+	
+	<!-- 선택적으로 MultipartResolver 선택하기 위해 alias 선언 -->
+	<!-- <alias name="spring.CommonsMultipartResolver" alias="multipartResolver"/> -->
+	<!-- 파일 업로드 default name = multipartResolver -->
+	<alias name="standard.ServletMultipartResolver" alias="multipartResolver"/>
+</beans>

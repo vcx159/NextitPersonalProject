@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.contacts.service.impl.ContactsMapper">
+
+	<sql id="selectSeachCode">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">	
+			<if test="searchType == 'title' and searchText != ''">
+				AND a.title like '%' || #{searchText} || '%'
+			</if>
+			<if test="searchType == 'contents' and searchText != ''">
+				AND  b.contents like '%' || #{searchText} || '%'
+			</if>
+			<if test="searchType == 'titcon' and searchText != ''">
+				AND a.title like '%' || #{searchText} || '%'
+				OR b.contents like '%' || #{searchText} || '%'
+			</if>
+			AND a.is_del = 'N'
+			AND b.is_del = 'N'
+		</trim>	
+	</sql>
+
+	<select id="selectContactsListProc" 
+		parameterType="kr.or.allfix.contacts.service.ContactsSearchVo" 
+		resultType="kr.or.allfix.contacts.service.ContactsVo">
+	
+		SELECT * FROM (
+			SELECT ROWNUM as num, frm.* from (
+				SELECT
+				    a.seq_no,
+				    a.title,
+				    b.reply_seq_no,
+				    b.contents,
+				    a.usr_ip,
+				    a.is_del,
+				    a.reg_user,
+				    a.reg_dt,
+				    a.upd_user,
+				    a.upd_dt
+				FROM
+				    af_contacts a, af_contact_replys b
+				<include refid="selectSeachCode"></include>
+				ORDER BY 
+					reg_dt DESC
+			) frm
+		) where num between #{startRow} and #{endRow}
+	
+	</select>
+	
+	<select id="selectContactsListCnt" 
+		parameterType="kr.or.allfix.contacts.service.ContactsSearchVo"
+		resultType="int">
+	
+		SELECT count(a.seq_no) as totalCnt
+        FROM af_contacts a, af_contact_replys b
+		<include refid="selectSeachCode"></include>
+	
+	</select>
+	
+	<select id="selectContactInfoProc" parameterType="String" resultType="kr.or.allfix.contacts.service.ContactsVo">
+	
+		SELECT
+		    seq_no,
+		    title,
+		    reply_seq_no,
+		    usr_ip,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+		    af_contacts
+		WHERE seq_no = #{seqNo}
+		
+	</select>
+
+	<insert id="insertContactInfoProc" parameterType="kr.or.allfix.contacts.service.ContactsVo">
+	
+		INSERT INTO af_contacts (
+		    seq_no,
+		    title,
+		    reply_seq_no,
+		    usr_ip,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		) VALUES (
+		    SEQ_AF_CONTACTS.NEXTVAL,
+		    #{title},
+		    #{replySeqNo},
+		    #{usrIp},
+		    'N',
+		    #{regUser},
+		    sysdate,
+		    #{updUser},
+		    sysdate
+		)
+	
+	</insert>
+
+
+
+
+</mapper>

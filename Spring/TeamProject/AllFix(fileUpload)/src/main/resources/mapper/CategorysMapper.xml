@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.categorys.service.impl.CategorysMapper">
+
+	<select id="selectCategorysList" parameterType="String" resultType="kr.or.allfix.categorys.service.CategorysVo">
+		
+		SELECT
+		    a.cate_no,
+		    a.type_id,
+		    b.brand_id,
+           b.brand_name,
+		    a.is_del
+		FROM
+		    af_categorys a, af_brands b
+		WHERE
+			a.type_id = #{typeId}
+       AND 
+          a.brand_id = b.brand_id
+		AND 
+			a.is_del = 'N'
+	
+	</select>
+	
+	<select id="selectCategoryInfo" parameterType="HashMap" resultType="kr.or.allfix.categorys.service.CategorysVo">
+		
+		SELECT
+		    cate_no,
+		    type_id,
+		    brand_id,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+		    af_categorys
+		WHERE
+			type_id = #{typeId}
+		AND 
+			brand_id = #{brandId}
+		AND
+			is_del = 'N'
+	
+	</select>
+
+
+</mapper>

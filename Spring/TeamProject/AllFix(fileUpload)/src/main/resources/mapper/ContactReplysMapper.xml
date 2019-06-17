@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.contactreplys.service.impl.ContactReplysMapper">
+
+	<select id="selectContactReplysListProc" parameterType="String" resultType="kr.or.allfix.contactreplys.service.ContactReplysVo">
+		
+		SELECT
+		    reply_seq_no,
+		    seq_no,
+		    contents,
+		    ref_seq_no,
+		    usr_ip,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+		    af_contact_replys
+		WHERE
+			reply_seq_no = #{replySeqNo}
+		AND is_del = 'N'
+	
+	</select>
+
+	<insert id="insertContactReplyInfo" parameterType="kr.or.allfix.contactreplys.service.ContactReplysVo">
+	
+		INSERT INTO af_contact_replys (
+		    reply_seq_no,
+		    seq_no,
+		    contents,
+		    ref_seq_no,
+		    usr_ip,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		) VALUES (
+		    #{replySeqNo},
+		    SEQ_AF_CONTACT_REPLYS.NEXTVAL,
+		    #{contents},
+		    null,
+		    #{usrIp},
+		    'N',
+		    #{regUser},
+		    sysdate,
+		    #{updUser},
+		    sysdate
+		)
+	
+	</insert>
+
+
+
+</mapper>

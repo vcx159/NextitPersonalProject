@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.allfix.accounts.service.impl.AccountsMapper">
+
+	<sql id="selectIfCodeWhere">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+
+			<if test="searchType == '1001'">
+				and acc_name like '%'|| #{searchText} ||'%'
+			</if>
+			<if test="searchType == '1002'">
+				and acc_id like '%'|| #{searchText} ||'%'
+			</if>
+
+			and is_del = 'N'
+		</trim>
+	</sql>
+
+	<select id="loginInfo"
+		parameterType="kr.or.allfix.accounts.service.AccountsVo"
+		resultType="kr.or.allfix.accounts.service.AccountsVo">
+		SELECT
+			seq_no,
+		    acc_id,
+		    acc_pw,
+		    acc_name,
+		    gender,
+		    to_char(birth,'yyyy-mm-dd') as birth,
+		    phone_number,
+		    email,
+		    addr_zip,
+		    addr_detail1,
+		    addr_detail2,
+		    ref_seq_no,
+		    author_id,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+			af_accounts
+		WHERE 
+			acc_id = #{accId}
+		  and 
+			acc_pw = #{accPw}
+		  and
+		    is_del = 'N'
+		
+	
+	</select>
+
+		<select id="selectAccountsList" parameterType="kr.or.allfix.accounts.service.AccountsSearchVo"
+		resultType="kr.or.allfix.accounts.service.AccountsVo">
+	SELECT * FROM (
+		SELECT ROWNUM as num , frm.* from (
+		   SELECT
+		   	seq_no,
+		       acc_id,
+		       acc_pw,
+		       acc_name,
+		       gender,
+		       to_char(birth,'yyyy-mm-dd') as birth,
+		       phone_number,
+		       email,
+		       addr_zip,
+		       addr_detail1,
+		       addr_detail2,
+		       ref_seq_no,
+		       author_id,
+		       is_del,
+		       reg_user,
+		       reg_dt,
+		       upd_user,
+		       upd_dt
+		   FROM
+		   	af_accounts
+		   <include refid="selectIfCodeWhere"></include>
+		   	order by reg_dt desc
+		  ) frm
+		) WHERE num BETWEEN #{startRow} AND #{endRow} 	
+	
+	
+	</select>
+	
+	<select id="selectAccountsListCnt" 
+			 parameterType="kr.or.allfix.accounts.service.AccountsSearchVo"
+			 resultType="int" >
+	
+		SELECT count(seq_no) as totalCnt
+
+       FROM af_accounts 
+		<include refid="selectIfCodeWhere"></include>
+	</select>
+	
+	<select id="selectAccountsInfo" parameterType="hashMap"
+		resultType="kr.or.allfix.accounts.service.AccountsVo">
+		
+		SELECT
+			seq_no,
+		    acc_id,
+		    acc_pw,
+		    acc_name,
+		    gender,
+		    to_char(birth,'yyyy-mm-dd') as birth,
+		    phone_number,
+		    email,
+		    addr_zip,
+		    addr_detail1,
+		    addr_detail2,
+		    ref_seq_no,
+		    author_id,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		FROM
+			af_accounts
+		WHERE seq_no = #{seqNo}
+	
+	</select>
+
+	<insert id="insertAccountsProc"
+		parameterType="kr.or.allfix.accounts.service.AccountsVo">
+		
+		INSERT INTO af_accounts (
+		    seq_no,
+		    acc_id,
+		    acc_pw,
+		    acc_name,
+		    gender,
+		    birth,
+		    phone_number,
+		    email,
+		    addr_zip,
+		    addr_detail1,
+		    addr_detail2,
+		    ref_seq_no,
+		    author_id,
+		    is_del,
+		    reg_user,
+		    reg_dt,
+		    upd_user,
+		    upd_dt
+		) VALUES (
+		     SEQ_AF_ACCOUNTS.nextval,
+		    #{accId},
+		    #{accPw},
+		    #{accName},
+		    #{gender},
+		    #{birth},
+		    #{phoneNumber},
+		    #{email},
+		    #{addrZip},
+		    #{addrDetail1},
+		    #{addrDetail2},
+		    null,
+		    'NORMAL',
+		    'N',
+		    #{accId},
+		    sysdate,
+		    #{accId},
+		    sysdate
+		)
+		
+		
+	</insert>
+	
+	<select id="selectIdCheck" parameterType="hashMap" resultType="integer">
+	
+	SELECT
+	count(acc_id) as idCnt
+	FROM af_accounts
+	WHERE acc_id = #{accId}
+	
+	</select>
+	
+	<update id="updateAccountsInfo" parameterType="kr.or.allfix.accounts.service.AccountsVo">
+	
+		UPDATE af_accounts SET
+			acc_name      =#{accName},
+			gender        =#{gender},
+			birth			=#{birth},
+			phone_number	=#{phoneNumber},
+			email			=#{email},
+			addr_zip		=#{addrZip},
+			addr_detail1	=#{addrDetail1},
+			addr_detail2	=#{addrDetail2},
+			upd_user		=#{updUser},
+			upd_dt			=sysdate
+		WHERE seq_no = #{seqNo}
+	</update>
+	
+	<delete id="deleteAccountsInfo" parameterType="hashMap">
+	
+		DELETE FROM af_accounts
+WHERE
+    seq_no = ''
+			
+	
+	</delete>
+
+</mapper>

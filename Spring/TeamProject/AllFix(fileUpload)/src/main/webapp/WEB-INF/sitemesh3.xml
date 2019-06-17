@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+  <mime-type>text/html</mime-type>
+  <mime-type>application/vnd.wap.xhtml+xml</mime-type>
+  <mime-type>application/xhtml+xml</mime-type>
+	
+  <!-- "/javadoc/*" 설정된 경로는 -->
+  <!-- sitemesh decorator을 적용하지 않음 -->
+  <mapping path="/javadoc/*" exclue="true"/>
+  <mapping path="/resources/*" exclue="true"/>
+  <mapping path="/plugins/*" exclue="true"/>
+  <mapping path="/css/*" exclue="true"/>
+  <mapping path="/js/*" exclue="true"/>
+
+
+  <!-- "/*"(모든 URL)로 설정된 경로는 -->
+  <!-- sitemesh decorator을 적용시킴 -->
+  <mapping path="/*" decorator="/decorator/defaultDecorator.jsp"/>
+  
+  <!-- path를 따로 설정하지 않으면 자동으로 모든 경로 -->
+  <mapping decorator="/decorator/defaultDecorator.jsp"/>
+</sitemesh>
