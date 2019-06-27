@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <title>Document</title>
+    <style>
+        .blue, .date-saturday a {background-color:#006fb8 !important;}
+.red, .date-sunday a {background-color:#ec3636 !important;}
+.date-holiday a {background-color:green !important;}
+    </style>
+    <script>
+        var holidays = {"20100101":{type:0, title:"신정", year:"2010"}};
+        $(function() {
+
+            $("#cal").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: "button",
+                buttonImage: "images/calendar.gif",
+                buttonImageOnly: true,
+                buttonText: "Select date",
+                beforeShowDay: function(day) {
+                    var result = null;
+                    var holiday = holidays[$.datepicker.formatDate("yymmdd",day )];
+                    if (holiday) {
+                        result = [true, "date-holiday", holiday.title];
+                    }
+
+                    if(!result) {
+                        switch (day.getDay()) {
+                            case 0: //일요일
+                                result = [true, "date-sunday"];
+                                break;
+                            case 6: // 토요일
+                                result = [true, "date-saturday"];
+                                break;
+                            default:
+                                result = [true, ""];
+                                break;
+                        }
+                    }
+                    return result;
+                }
+            });
+
+
+            
+        });
+    
+    </script>
+</head>
+<body>
+    <input id="cal" type="text">
+</body>
+</html>
