@@ -1,0 +1,24 @@
+자바에서 OS 확인하는 방법
+
+public class SystemOsMain {
+
+    public static void main(String[] args) {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            System.out.println("Windows");
+
+        } else if (os.contains("mac")) {
+            System.out.println("Mac");
+
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            System.out.println("Unix");
+
+        } else if (os.contains("linux")) {
+            System.out.println("Linux");
+
+        } else if (os.contains("sunos")) {
+            System.out.println("Solaris");
+        }
+    }
+}
